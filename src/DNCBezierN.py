@@ -12,17 +12,18 @@ def divide_points(points,left_ctrl,right_ctrl):
         right_ctrl.insert(0,new_points[-1])
         return divide_points(new_points,left_ctrl,right_ctrl)
     else:
-        return left_ctrl,right_ctrl
+        return points[0],left_ctrl,right_ctrl
 
 # Fungsi pembentukan kurva Bezier dengan algoritma divide and conquer
-def bezier_curve(points, iterations):
+def bezier_curve(points, iterations,main_points):
     if iterations == 0 or len(points) < 2:
-        return points
+        return main_points
     else:
         left_ctrl = [points[0]]
         right_ctrl = [points[-1]]
-        left_ctrl, right_ctrl = divide_points(points, left_ctrl, right_ctrl)
-        return bezier_curve(left_ctrl, iterations - 1) + bezier_curve(right_ctrl, iterations - 1)
+        point,left_ctrl, right_ctrl = divide_points(points, left_ctrl, right_ctrl)
+        main_points.append(point)
+        return bezier_curve(left_ctrl, iterations - 1,main_points) + bezier_curve(right_ctrl, iterations - 1,main_points)
 
 
 # Fungsi untuk menampilkan plot
@@ -39,8 +40,20 @@ def plot_curve_and_points(curve_points, control_points):
     plt.axis('equal')
     plt.show()
 
+# fungsi membuat list yang unique
+def unique(list1):
+    list_set = set(list1)
+    unique_list = (list(list_set))
+    return unique_list
+
+# mengurutkan list berdasarkan nilai x
+def sortX(list1):
+    list1.sort(key=lambda x: x[0])
+    return list1
+
 # Contoh penggunaan
-points = [(0, 0), (1, 2), (3, 1), (4, 3)]
-curve_points = bezier_curve(points, 5)
-# print(curve_points)
+points = [(0, 0), (1,2),(3,0)]
+curve_points = bezier_curve(points, 10,[points[0],points[-1]])
+curve_points = unique(curve_points)
+curve_points = sortX(curve_points)
 plot_curve_and_points(curve_points, points)
