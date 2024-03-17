@@ -12,19 +12,16 @@ def divide_points(points,left_ctrl,right_ctrl):
         right_ctrl.insert(0,new_points[-1])
         return divide_points(new_points,left_ctrl,right_ctrl)
     else:
-        return points,left_ctrl,right_ctrl
+        return left_ctrl,right_ctrl
 
 # Fungsi pembentukan kurva Bezier dengan algoritma divide and conquer
 def bezier_curve(points, iterations):
     if iterations == 0 or len(points) < 2:
-        # print(points)
         return points
     else:
         left_ctrl = [points[0]]
         right_ctrl = [points[-1]]
-        curve_points, left_ctrl, right_ctrl = divide_points(points, left_ctrl, right_ctrl)
-        print(curve_points)
-        print(right_ctrl)
+        left_ctrl, right_ctrl = divide_points(points, left_ctrl, right_ctrl)
         return bezier_curve(left_ctrl, iterations - 1) + bezier_curve(right_ctrl, iterations - 1)
 
 
@@ -43,7 +40,7 @@ def plot_curve_and_points(curve_points, control_points):
     plt.show()
 
 # Contoh penggunaan
-points = [(0, 0), (1, 2), (2, 2), (3,0)]
-curve_points = bezier_curve(points, 3)
+points = [(0, 0), (1, 2), (3, 1), (4, 3)]
+curve_points = bezier_curve(points, 5)
 # print(curve_points)
 plot_curve_and_points(curve_points, points)
