@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import time
 
 # Fungsi pembagian titik-titik
 def divide_points(points,left_ctrl,right_ctrl):
@@ -27,37 +28,38 @@ def bezier_curve(points, iterations, main_points):
 
 
 # Fungsi untuk menampilkan plot
-def plot_curve_and_points(curve_points, control_points):
-    plt.plot([p[0] for p in curve_points], [p[1] for p in curve_points], 'r-', label='Kurva Bezier')
-    plt.plot([p[0] for p in control_points], [p[1] for p in control_points], 'bo-', label='Titik-titik kontrol')
+def plot_curve_and_points(curve_points, control_points, ax):
+    ax.plot([p[0] for p in curve_points], [p[1] for p in curve_points], 'r-', label='Kurva Bezier')
+    ax.plot([p[0] for p in control_points], [p[1] for p in control_points], 'bo-', label='Titik-titik kontrol')
     for i in range(len(control_points) - 1):
-        plt.plot([control_points[i][0], control_points[i+1][0]], [control_points[i][1], control_points[i+1][1]], 'g--')
-    plt.legend()
-    plt.title('Kurva Bezier dan Titik-titik Kontrol')   
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.grid(True)
-    plt.axis('equal')
-    plt.show()
+        ax.plot([control_points[i][0], control_points[i+1][0]], [control_points[i][1], control_points[i+1][1]], 'g--')
+    ax.legend()
+    # ax.title('Kurva Bezier dan Titik-titik Kontrol')   
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.grid(True)
+    ax.axis('equal')
 
-# fungsi membuat list yang unique
-def unique(list1):
-    list_set = set(list1)
-    unique_list = (list(list_set))
-    return unique_list
+def show_curve(control_points, iteration, ax):
+    for i in range(1, iteration + 1):
+        curve_points = [control_points[0], control_points[-1]]
+        ax.cla()
+        ax.set_title("Divide and Conquer")
+        tstart = time.time()
+        bezier_curve(control_points, i, curve_points)
+        plot_curve_and_points(curve_points, control_points, ax)
+        tend = time.time()
+        if i == iteration:
+            ax.text(0.5, -0.1, f"Execution Time in {i} iteration : {round(tend - tstart, 5)} seconds", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+        
+        print(i, " Waktu Eksekusi : ", round(tend - tstart, 5), "s")
+        plt.pause(1)
 
-# mengurutkan list berdasarkan nilai x
-def sortX(list1):
-    list1.sort(key=lambda x: x[0])
-    return list1
 
-def sortY(list1):
-    list1.sort(key=lambda x: x[1])
-    return list1
 
 # Contoh penggunaan
-points = [(3,4),(0, 0), (2, 1),(1,3)]
-# points = sortX(points)
-curve_points = [points[0],points[-1]]
-bezier_curve(points, 10,curve_points)
-plot_curve_and_points(curve_points, points)
+# points = [(3,4),(0, 0), (2, 1),(1,3)]
+# # points = sortX(points)
+# curve_points = [points[0],points[-1]]
+# bezier_curve(points, 10,curve_points)
+# plot_curve_and_points(curve_points, points)
