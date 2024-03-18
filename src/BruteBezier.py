@@ -1,10 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-
-
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -22,6 +18,9 @@ def bf(control_points, t):
     
     result = (1 - t) * left_curve + t * right_curve
     return result
+
+
+
 def plot_bezier_curve(control_points, iteration, ax):
     tot_point = 2 ** iteration + 1
     t_values = np.linspace(0, 1, tot_point)
@@ -50,7 +49,7 @@ def show_curve(control_points_coord, iteration, ax):
         if i == iteration:
             ax.text(0.5, -0.1, f"Execution Time in {i} iterations: {round(tend - tstart, 5)} seconds", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
         
-        print(i, " Waktu Eksekusi : ", round(tend - tstart,5), " s")
+        print(i, " | Waktu Eksekusi : ", round(tend - tstart,5), " s")
         plt.pause(1)
     
  

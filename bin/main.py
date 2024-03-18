@@ -1,5 +1,10 @@
+import sys
+sys.path.append('../src')
+
 import BruteBezier
 import DNCBezierN
+
+
 import matplotlib.pyplot as plt
 import time
 

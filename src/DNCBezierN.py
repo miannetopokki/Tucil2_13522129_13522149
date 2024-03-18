@@ -67,7 +67,7 @@ def show_curve(control_points, iteration, ax):
         if i == iteration:
             ax.text(0.5, -0.1, f"Execution Time in {i} iteration : {round(tend - tstart, 5)} seconds", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
         
-        print(i, " Waktu Eksekusi : ", round(tend - tstart, 5), "s")
+        print(i, " |  Waktu Eksekusi : ", round(tend - tstart, 5), "s")
         plt.pause(1)
 
 
