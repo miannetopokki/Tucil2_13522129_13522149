@@ -22,34 +22,36 @@ def bf(control_points, t):
     
     result = (1 - t) * left_curve + t * right_curve
     return result
-
-def plot_bezier_curve(control_points, iteration):
-    if(iteration == 1):
-        tot_point = 3
-    else:
-        tot_point = iteration ** 2 + 1
+def plot_bezier_curve(control_points, iteration, ax):
+    tot_point = 2 ** iteration + 1
     t_values = np.linspace(0, 1, tot_point)
     curve_points = np.array([bf(control_points, t) for t in t_values])
 
-   
-    plt.plot(control_points[:, 0], control_points[:, 1], 'ro-', label='Control Points')
-    plt.plot(curve_points[:, 0], curve_points[:, 1], 'b-', label='Bezier Curve')
+    ax.plot(control_points[:, 0], control_points[:, 1], 'ro-', label='Control Points')
+    ax.plot(curve_points[:, 0], curve_points[:, 1], 'b-', label='Bezier Curve')
+    ax.grid(True)
+    ax.axis('equal')
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.legend()
 
 
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.legend()
 
 
-
-def show_curve(control_points_coord,iteration):
+def show_curve(control_points_coord, iteration, ax):
     control_points = np.array(control_points_coord, dtype=np.float64)
-    plt.figure()
-    for i in range(1,iteration+1):
-        plt.cla()
-        plt.title(i)
-        plot_bezier_curve(control_points,i)
+    for i in range(1, iteration+1):
+        ax.cla()
+        ax.set_title("Brute Force")
+        tstart = time.time()
+        plot_bezier_curve(control_points, i, ax)
+        tend = time.time()
+        if i == iteration:
+            ax.text(0.5, -0.1, f"Execution Time in {i} iterations: {round(tend - tstart, 5)} seconds", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+        
+        print(i, " Waktu Eksekusi : ", round(tend - tstart,5), " s")
         plt.pause(1)
     
-    plt.show()
+ 
 
