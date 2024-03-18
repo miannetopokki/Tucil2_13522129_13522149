@@ -40,21 +40,6 @@ def plot_curve_and_points(curve_points, control_points, ax):
     ax.grid(True)
     ax.axis('equal')
 
-# fungsi membuat list yang unique
-def unique(list1):
-    list_set = set(list1)
-    unique_list = (list(list_set))
-    return unique_list
-
-# mengurutkan list berdasarkan nilai x
-def sortX(list1):
-    list1.sort(key=lambda x: x[0])
-    return list1
-
-def sortY(list1):
-    list1.sort(key=lambda x: x[1])
-    return list1
-
 def show_curve(control_points, iteration, ax):
     for i in range(1, iteration + 1):
         curve_points = [control_points[0], control_points[-1]]
