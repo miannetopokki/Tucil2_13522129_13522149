@@ -15,15 +15,15 @@ def divide_points(points,left_ctrl,right_ctrl):
         return points[0],left_ctrl,right_ctrl
 
 # Fungsi pembentukan kurva Bezier dengan algoritma divide and conquer
-def bezier_curve(points, iterations,main_points):
-    if iterations == 0 or len(points) < 2:
-        return main_points
-    else:
+def bezier_curve(points, iterations, main_points):
+    if(iterations != 0 and len(points) > 1):
         left_ctrl = [points[0]]
         right_ctrl = [points[-1]]
-        point,left_ctrl, right_ctrl = divide_points(points, left_ctrl, right_ctrl)
-        main_points.append(point)
-        return bezier_curve(left_ctrl, iterations - 1,main_points) + bezier_curve(right_ctrl, iterations - 1,main_points)
+        point, left_ctrl, right_ctrl = divide_points(points, left_ctrl, right_ctrl)
+        index = main_points.index(points[0])
+        main_points.insert(index+1, point)
+        bezier_curve(left_ctrl, iterations-1, main_points)
+        bezier_curve(right_ctrl, iterations-1, main_points)
 
 
 # Fungsi untuk menampilkan plot
@@ -51,9 +51,13 @@ def sortX(list1):
     list1.sort(key=lambda x: x[0])
     return list1
 
+def sortY(list1):
+    list1.sort(key=lambda x: x[1])
+    return list1
+
 # Contoh penggunaan
-points = [(0, 0), (1,2),(3,0)]
-curve_points = bezier_curve(points, 10,[points[0],points[-1]])
-curve_points = unique(curve_points)
-curve_points = sortX(curve_points)
+points = [(3,4),(0, 0), (2, 1),(1,3)]
+# points = sortX(points)
+curve_points = [points[0],points[-1]]
+bezier_curve(points, 10,curve_points)
 plot_curve_and_points(curve_points, points)
